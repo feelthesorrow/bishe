@@ -1,0 +1,21 @@
+package microservices.priceCalculation;
+
+import microservices.priceCalculation.ATypePriceCalculation.domain.Fact;
+
+rule "10%discountForVIP"
+
+    no-loop true
+
+    when
+
+        $fact:Fact(requestForSku.isVIP == true)
+
+    then
+
+        $fact.getATypePrice().setSubtotal(
+            $fact.getATypePrice().getSubtotal() * 0.9
+        );
+        System.out.println( "discountForVIP " + $fact.getRequestForSku().getUserId() );
+
+
+end
