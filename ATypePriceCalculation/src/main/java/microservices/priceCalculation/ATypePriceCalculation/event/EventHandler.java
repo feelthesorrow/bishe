@@ -14,10 +14,14 @@ import java.util.ArrayList;
 public class EventHandler {
 
     private PriceService priceService;
+    private EventDispatcher eventDispatcher;
 
-    EventHandler(final PriceService priceService){
+    EventHandler(final PriceService priceService,
+                 final  EventDispatcher eventDispatcher
+    ){
 
         this.priceService = priceService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     @RabbitListener(queues = "${priceCalculation.queue}")
@@ -64,6 +68,7 @@ public class EventHandler {
             }
 
             //publish ATypeCalculatedEvent
+            eventDispatcher.send(calculatedEvent);
 
         } catch (final Exception e) {
 

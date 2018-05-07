@@ -1,4 +1,10 @@
 package microservices.priceCalculation.BTypePriceCalculation.domain;
 
-public class SHOP_RANGE {
+import lombok.ToString;
+
+@ToString
+public enum SHOP_RANGE{
+    SHOP,
+    SHOPS,
+    ALL
 }

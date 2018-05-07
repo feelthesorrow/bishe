@@ -1,0 +1,34 @@
+server:
+  port: 8000
+
+zuul:
+  ignoredServices: '*'
+  prefix: /v1
+  routes:
+    cart:
+      path: /cart/**
+      serviceId: cart
+      strip-prefix: false
+    price:
+      path: /price/**
+      serviceId: ATypePriceCalculation
+      strip-prefix: false
+    promotiom:
+      path: /promotion/**
+      serviceId: BTypePriceCalculation
+      strip-prefix: false
+    subtotal:
+      path: /subtotal/**
+      serviceId: testActivity
+      strip-prefix: false
+
+endpoints:
+  routes:
+    sensitive: false
+  trace:
+    sensitive: false
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/

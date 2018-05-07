@@ -1,0 +1,18 @@
+package microservices.priceCalculation;
+
+import microservices.priceCalculation.testActivity.domain.Fact;
+
+rule "399-40"
+
+    no-loop true
+
+when
+
+    $fact:Fact(subtotalBefore > 399 , shopId == -1)
+
+then
+
+    $fact.getSubtotal().setSubtotal($fact.getSubtotalBefore() - 40);
+    System.out.println( "<<!  399-40 for " + $fact.getUserId() + "  !>>");
+
+end

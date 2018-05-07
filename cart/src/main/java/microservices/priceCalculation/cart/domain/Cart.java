@@ -19,18 +19,13 @@ public final class Cart {
     @Id
     private final String cartId;
     private int lastModified;
-    private double total;
 
-    {
-        total = 0;
-    }
 
     private TreeSet<Shop> shops = new TreeSet<Shop>();
 
     public Cart(){
         cartId = "test";
         lastModified = new ObjectId().getTimestamp();
-        total = 0;
         shops.add(new Shop());
     }
 }

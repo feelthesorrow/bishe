@@ -5,6 +5,7 @@ import microservices.priceCalculation.ATypePriceCalculation.domain.ATypePrice;
 import microservices.priceCalculation.ATypePriceCalculation.domain.Fact;
 import microservices.priceCalculation.ATypePriceCalculation.domain.Prices;
 import microservices.priceCalculation.ATypePriceCalculation.domain.RequestForSku;
+import microservices.priceCalculation.ATypePriceCalculation.event.EventDispatcher;
 import microservices.priceCalculation.ATypePriceCalculation.repository.PricesRepository;
 import org.kie.api.KieServices;
 import org.kie.api.cdi.KSession;
@@ -23,6 +24,7 @@ public class PriceServiceImpl implements PriceService{
     public PriceServiceImpl(final PricesRepository pricesRepository){
 
         this.pricesRepository = pricesRepository;
+
     }
 
     @Override

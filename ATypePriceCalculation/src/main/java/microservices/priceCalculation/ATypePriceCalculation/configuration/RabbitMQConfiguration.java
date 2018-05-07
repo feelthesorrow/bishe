@@ -5,7 +5,10 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,8 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer{
         return new TopicExchange(exchangeName);
     }
 
+    /*subscribe event configs*/
+
     @Bean
     public Queue APriceCalculationQueue(@Value("${priceCalculation.queue}") final String queueName) {
 
@@ -29,7 +34,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer{
 
     @Bean
     Binding binding(final Queue queue, final TopicExchange exchange,
-                    @Value("${priceCalculation.anything.routing-key}") final String routingKey) {
+                    @Value("${cart.got.key}") final String routingKey) {
 
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
@@ -53,5 +58,20 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer{
 
         registrar.setMessageHandlerMethodFactory(messageHandlerMethodFactory());
     }
+
+    /*publish event configs*/
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory){
+        final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
 }
 
